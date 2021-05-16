@@ -1,18 +1,12 @@
 // 创建web服务器
 const http = require('http')
-const url = require('url')
-const path = require('path')
-const utils = require('./common/utils')
+const Static = require('./common/Static')
+const express = require('./common/express')
 
-const app = http.createServer((req, res) => {
-    if (req.url === '/favicon.ico') return
+const app = http.createServer(express)
 
-    utils.source('/static/css/xx.sass').then(res=>{
-        console.log(res)
-    })
+app.get('/',(req,res)=>{
 
-    res.writeHead(200, {'Content-Type': 'application-json;charset=utf-8'})
-    res.end('hello')
 })
 
 app.listen(3000, () => {
