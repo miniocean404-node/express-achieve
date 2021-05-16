@@ -1,0 +1,11 @@
+{
+  "name": "node-create-web",
+  "version": "1.0.0",
+  "description": "原生node搭建web静态资源服务器以及请求路由",
+  "main": "NodeCreateWeb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "我是小海洋呀",
+  "license": "ISC"
+}
