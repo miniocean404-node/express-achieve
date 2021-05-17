@@ -1,5 +1,4 @@
 const fs = require('fs')
-const url = require('url')
 const path = require('path')
 const utils = require('./utils')
 
@@ -12,15 +11,12 @@ function getMime(mime) {
 // 获取静态资源
 function source(dir) {
     return new Promise((res, rej) => {
-        let str = ''
-        fs.readFile(utils.resolve(dir), 'utf-8', (err, data) => {
-            if (err) {
-                rej(false)
-                console.log(err.toString() || err, '获取静态资源错误')
-                return
+        fs.readFile(utils.resolve(dir), 'utf-8', (e, data) => {
+            if (e) {
+                console.log(e.toString() || e, '不存在资源')
+                rej(e)
             }
-            str += data
-            res(str)
+            res(data)
         })
     })
 }
@@ -28,11 +24,16 @@ function source(dir) {
 module.exports = function (req, resp, staticPath) {
     const extname = path.extname(req.url)
     const mime = getMime(extname)
+    const address = staticPath + req.url
 
-    source(staticPath + req.url).then((res, rej) => {
-        resp.writeHead(200, {'Content-Type': `${mime};charset=utf-8`})
-        resp.end(rej)
-    })
+    if (extname && mime) {
+        source(address).then((res, rej) => {
+            if (res){
+                resp.writeHead(200, {'Content-Type': `${mime};charset=utf-8`})
+                resp.end(res)
+            }
+        })
+    }
 }
 
 
